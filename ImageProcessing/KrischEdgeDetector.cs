@@ -25,7 +25,7 @@ namespace ImageProcessing
         [NotifyParentProperty(true)]
         public bool CopyOriginal { get; set; }
         [NotifyParentProperty(true)]
-        public int meZtech { get; set; }
+        public String messageOut { get; set; }
 
         public KrischEdgeDetectorParms()
         {
@@ -34,12 +34,12 @@ namespace ImageProcessing
             ConvertToGrayscale = true;
             EdgeColor = Color.Yellow;
             CopyOriginal = true;
-            meZtech = 0;
+            
         }
     }
     public class KrischEdgeDetector : ImageFilter<KrischEdgeDetectorParms>
     {
-       
+
 
         private Color grayscale(Color cr)
         {
@@ -50,12 +50,12 @@ namespace ImageProcessing
         private int getD(int cr, int cl, int cu, int cd,
                           int cld, int clu, int cru, int crd, int[,] matrix)
         {
-            return Math.Abs(  matrix[0, 0]*clu + matrix[0, 1]*cu + matrix[0, 2]*cru
-                            + matrix[1, 0]*cl + matrix[1, 2]*cr
-                            + matrix[2, 0]*cld + matrix[2, 1]*cd + matrix[2, 2]*crd);
+            return Math.Abs(matrix[0, 0] * clu + matrix[0, 1] * cu + matrix[0, 2] * cru
+                            + matrix[1, 0] * cl + matrix[1, 2] * cr
+                            + matrix[2, 0] * cld + matrix[2, 1] * cd + matrix[2, 2] * crd);
         }
 
-        
+
         private int getMaxD(int cr, int cl, int cu, int cd,
                           int cld, int clu, int cru, int crd)
         {
@@ -68,7 +68,7 @@ namespace ImageProcessing
             }
             return max;
         }
-        
+
         private List<int[,]> templates = new List<int[,]> 
         {
             new int[,] {{ -3, -3, 5 }, { -3, 0, 5 }, { -3, -3, 5 } },
@@ -83,52 +83,52 @@ namespace ImageProcessing
         public override Bitmap FilterProcessImage(KrischEdgeDetectorParms parms, Bitmap image)
         {
             Bitmap ret = new Bitmap(image.Width, image.Height);
-            for (int i = 1; i < image.Width - 1; i++)
-            {
-                for (int j = 1; j < image.Height - 1; j++)
-                {
-                    Color cr = image.GetPixel(i + 1, j);
-                    Color cl = image.GetPixel(i - 1, j);
-                    Color cu = image.GetPixel(i, j - 1);
-                    Color cd = image.GetPixel(i, j + 1);
-                    Color cld = image.GetPixel(i - 1, j + 1);
-                    Color clu = image.GetPixel(i - 1, j - 1);
-                    Color crd = image.GetPixel(i + 1, j + 1);
-                    Color cru = image.GetPixel(i + 1, j - 1);
-                    int d = 0;
-                    switch (parms.Channel)
-                    {
-                        case Channels.R:
-                            d = getMaxD(cr.R, cl.R, cu.R, cd.R, cld.R, clu.R, cru.R, crd.R);
-                            break;
-                        case Channels.G:
-                            d = getMaxD(cr.G, cl.G, cu.G, cd.G, cld.G, clu.G, cru.G, crd.G);
-                            break;
-                        case Channels.B:
-                            d = getMaxD(cr.B, cl.B, cu.B, cd.B, cld.B, clu.B, cru.B, crd.B);
-                            break;
-                        case Channels.RGB:
-                            d = getMaxD(grayscale(cr).B, grayscale(cl).B, grayscale(cu).B, grayscale(cd).B, grayscale(cld).B, grayscale(clu).B, grayscale(cru).B, grayscale(crd).B);
-                            break;
-                    }
-                    double power = d;
-                    if (power > parms.Threshold)
-                        ret.SetPixel(i, j, parms.EdgeColor);
-                    else
-                    {
-                        if (parms.CopyOriginal)
-                        {
-                            Color c = image.GetPixel(i, j);
-                            if (parms.ConvertToGrayscale)
-                                ret.SetPixel(i, j, grayscale(c));
-                            else
-                                ret.SetPixel(i, j, c);
-                        }
-                        else
-                            ret.SetPixel(i, j, Color.White);
-                    }
-                }
-            }
+            //for (int i = 1; i < image.Width - 1; i++)
+            //{
+            //    for (int j = 1; j < image.Height - 1; j++)
+            //    {
+            //        Color cr = image.GetPixel(i + 1, j);
+            //        Color cl = image.GetPixel(i - 1, j);
+            //        Color cu = image.GetPixel(i, j - 1);
+            //        Color cd = image.GetPixel(i, j + 1);
+            //        Color cld = image.GetPixel(i - 1, j + 1);
+            //        Color clu = image.GetPixel(i - 1, j - 1);
+            //        Color crd = image.GetPixel(i + 1, j + 1);
+            //        Color cru = image.GetPixel(i + 1, j - 1);
+            //        int d = 0;
+            //        switch (parms.Channel)
+            //        {
+            //            case Channels.R:
+            //                d = getMaxD(cr.R, cl.R, cu.R, cd.R, cld.R, clu.R, cru.R, crd.R);
+            //                break;
+            //            case Channels.G:
+            //                d = getMaxD(cr.G, cl.G, cu.G, cd.G, cld.G, clu.G, cru.G, crd.G);
+            //                break;
+            //            case Channels.B:
+            //                d = getMaxD(cr.B, cl.B, cu.B, cd.B, cld.B, clu.B, cru.B, crd.B);
+            //                break;
+            //            case Channels.RGB:
+            //                d = getMaxD(grayscale(cr).B, grayscale(cl).B, grayscale(cu).B, grayscale(cd).B, grayscale(cld).B, grayscale(clu).B, grayscale(cru).B, grayscale(crd).B);
+            //                break;
+            //        }
+            //        double power = d;
+            //        if (power > parms.Threshold)
+            //            ret.SetPixel(i, j, parms.EdgeColor);
+            //        else
+            //        {
+            //            if (parms.CopyOriginal)
+            //            {
+            //                Color c = image.GetPixel(i, j);
+            //                if (parms.ConvertToGrayscale)
+            //                    ret.SetPixel(i, j, grayscale(c));
+            //                else
+            //                    ret.SetPixel(i, j, c);
+            //            }
+            //            else
+            //                ret.SetPixel(i, j, Color.White);
+            //        }
+            //    }
+            //}
 
             // create Edge filter
             //CannyEdgeDetector filter = new CannyEdgeDetector();
@@ -152,11 +152,12 @@ namespace ImageProcessing
             AForge.IntPoint second = corners2[0];
             float differenceX = second.X - first.X ;
             float differenceY = second.Y -first.Y ;
+            
 
             System.Console.WriteLine(first);
             System.Console.WriteLine(second);
             System.Console.WriteLine(differenceX);
-
+            
             double scale = 0.528;
             //Measure distance between two points in the corners matrix
             for (int i = 0; i < 4; i++)
@@ -168,9 +169,9 @@ namespace ImageProcessing
                 {
                     int xDist = corners1[i + 1].X - corners1[i].X;
                     dimensions[i] = xDist;
-                    scaled[i] = xDist * scale;
+                    scaled[i] = xDist * scale;                   
                     System.Console.WriteLine("From the For-loop: The X  Distance Between the Point ({0}) and Point ({1}) is {2}", corners1[i], corners1[i + 1], xDist);
-
+                   //textBox1.Text = "From the For-loop: The X  Distance Between the Point" + corners1[i] + " and Point " + corners1[i + 1] + " is " + xDist;
                 }
                 //if the element is the last element in the array measure between itself and the first point
                 else if (i == 3)
@@ -192,7 +193,6 @@ namespace ImageProcessing
                     System.Console.WriteLine("From the For-loop: The Y Line Distance Between the Point ({0}) and Point ({1}) is {2}", corners1[i], corners1[i + 1], yDist);
                 }
 
-                parms.meZtech=12;
                
                 
                 
@@ -211,18 +211,25 @@ namespace ImageProcessing
            // markers.Save("C:\\Users\\Ro-HII\\Desktop\\Rouzbeh\\Fall 2014\\business\\Plate-Measuring-master\\Pictures\\image1new.png", System.Drawing.Imaging.ImageFormat.Png);
            
             string messageOut = "\t Hello, This is meZtech \n \n";
+            messageOut += Environment.NewLine;
             for (int i = 0; i < scaled.Length - 1; i++)
             {
                 int j = i + 1;
                 messageOut += "The dimesnion for side " + j + " is " + scaled[i] + " inches \n";
+                messageOut += Environment.NewLine;
                
             }
             messageOut += "\n Your Part has passed inspection!!!";
+            messageOut += Environment.NewLine; 
 
             messageOut += "\n The Distance Moved in the X Direction is: " + differenceX;
+            messageOut += Environment.NewLine; 
             messageOut += "\n The Distance Moved in the Y Direction is: " + differenceY;
+            messageOut += Environment.NewLine; 
             MessageBox.Show(messageOut);
+            ret.Tag = messageOut;
             return ret;
+
             
         }
         public override System.Windows.Forms.Control GetParameterWindow()

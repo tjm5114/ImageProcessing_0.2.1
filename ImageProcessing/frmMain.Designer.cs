@@ -34,6 +34,7 @@
             this.btnOpen = new System.Windows.Forms.ToolStripButton();
             this.btnSave = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonMove = new System.Windows.Forms.ToolStripButton();
             this.ofDialog = new System.Windows.Forms.OpenFileDialog();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.imagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -42,7 +43,7 @@
             this.sobelEdgeDetectorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.binaryErosionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.krischEdgeDetectorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripButtonMove = new System.Windows.Forms.ToolStripButton();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.toolStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -56,7 +57,7 @@
             this.toolStripButtonMove});
             this.toolStrip1.Location = new System.Drawing.Point(0, 24);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(362, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(865, 25);
             this.toolStrip1.TabIndex = 0;
             // 
             // btnOpen
@@ -88,6 +89,16 @@
             this.toolStripButton1.Text = "toolStripButton1";
             this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
+            // toolStripButtonMove
+            // 
+            this.toolStripButtonMove.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonMove.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonMove.Image")));
+            this.toolStripButtonMove.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonMove.Name = "toolStripButtonMove";
+            this.toolStripButtonMove.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonMove.Text = "toolStripButton2";
+            this.toolStripButtonMove.Click += new System.EventHandler(this.toolStripButtonMove_Click);
+            // 
             // ofDialog
             // 
             this.ofDialog.FileName = "*.jpg";
@@ -101,7 +112,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.MdiWindowListItem = this.imagesToolStripMenuItem;
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(362, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(865, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
@@ -151,15 +162,15 @@
             this.krischEdgeDetectorToolStripMenuItem.Text = "Krisch Edge Detector";
             this.krischEdgeDetectorToolStripMenuItem.Click += new System.EventHandler(this.krischEdgeDetectorToolStripMenuItem_Click);
             // 
-            // toolStripButton2
+            // textBox1
             // 
-            this.toolStripButtonMove.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonMove.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButtonMove.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonMove.Name = "toolStripButton2";
-            this.toolStripButtonMove.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButtonMove.Text = "toolStripButton2";
-            this.toolStripButtonMove.Click += new System.EventHandler(this.toolStripButtonMove_Click);
+            this.textBox1.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.textBox1.Location = new System.Drawing.Point(425, 52);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(428, 271);
+            this.textBox1.TabIndex = 3;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // frmMain
             // 
@@ -168,7 +179,8 @@
             this.AutoSize = true;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.ClientSize = new System.Drawing.Size(362, 239);
+            this.ClientSize = new System.Drawing.Size(865, 324);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip1);
             this.DoubleBuffered = true;
@@ -204,6 +216,7 @@
         private System.Windows.Forms.ToolStripMenuItem krischEdgeDetectorToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.ToolStripButton toolStripButtonMove;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 

@@ -66,10 +66,10 @@ namespace ImageProcessing
 
         private void button1_Click(object sender, EventArgs e)
         {
-            int t;
+            
            
-            t = mParms.meZtech;
-            textBox1.Text = t.ToString();
+            
+           
         {
             
         }  

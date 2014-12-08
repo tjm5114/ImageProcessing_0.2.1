@@ -7,9 +7,12 @@ namespace ImageProcessing
 {
     public partial class frmMain : Form
     {
+       
         public frmMain()
         {
             InitializeComponent();
+           
+           
         }
 
         private void btnOpen_Click(object sender, EventArgs e)
@@ -28,12 +31,13 @@ namespace ImageProcessing
 
         private void dervivativeEdgeDetectionToolStripMenuItem_Click(object sender, EventArgs e)
         {
+           
             DerivativeEdgeDetector filter = new DerivativeEdgeDetector();
             picViewer view = new picViewer();
             view.ParmControl = filter.GetParameterWindow();
             Image image = filter.ProcessImage(
                 ((DerivativeEdgeDetectorParmForm)view.ParmControl).Parms,
-                ((picViewer)this.ActiveMdiChild).Image);
+                ((picViewer)this.ActiveMdiChild).Image );
             view.MdiParent = this;
             view.WindowState = FormWindowState.Normal;
             view.Image = image;
@@ -49,6 +53,7 @@ namespace ImageProcessing
 
         private void sobelEdgeDetectorToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            
             SobelEdgeDetector filter = new SobelEdgeDetector();
             picViewer view = new picViewer();
             view.ParmControl = filter.GetParameterWindow();
@@ -70,6 +75,7 @@ namespace ImageProcessing
 
         private void binaryErosionToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            
             BinaryEroder filter = new BinaryEroder();
             picViewer view = new picViewer();
             view.ParmControl = filter.GetParameterWindow();
@@ -91,13 +97,14 @@ namespace ImageProcessing
 
         private void krischEdgeDetectorToolStripMenuItem_Click(object sender, EventArgs e)
         {
+           
             KrischEdgeDetector filter = new KrischEdgeDetector();
             
             picViewer view = new picViewer();
             view.ParmControl = filter.GetParameterWindow();
             Image image = filter.ProcessImage(
                 ((KrischEdgeDetectorParmForm)view.ParmControl).Parms,
-                ((picViewer)this.ActiveMdiChild).Image);
+                ((picViewer)this.ActiveMdiChild).Image );
             view.MdiParent = this;
             view.StartPosition = FormStartPosition.CenterScreen; 
             view.WindowState = FormWindowState.Normal;
@@ -109,8 +116,11 @@ namespace ImageProcessing
                     ((KrischEdgeDetectorParmForm)view.ParmControl).Parms,
                     filter.OriginalImage);
             });
+
+           // messageOutput = image.Tag.ToString();
             
             view.Show();
+
            
         }
 
@@ -126,6 +136,7 @@ namespace ImageProcessing
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
+            String messageOutput = "";
             KrischEdgeDetector filter = new KrischEdgeDetector();
 
             picViewer view = new picViewer();
@@ -136,9 +147,7 @@ namespace ImageProcessing
             Image image = filter.ProcessImage(
                 ((KrischEdgeDetectorParmForm)view.ParmControl).Parms,
                 ((picViewer)this.ActiveMdiChild).Image);
-            Image image3 = filter.ProcessImage(
-            ((KrischEdgeDetectorParmForm)view.ParmControl).Parms, ((picViewer)this.ActiveMdiChild).Image);
-            view.MdiParent = this;
+           
 
             view.StartPosition = FormStartPosition.CenterScreen;
             view.WindowState = FormWindowState.Normal;
@@ -151,7 +160,10 @@ namespace ImageProcessing
                     filter.OriginalImage);
             });
 
-            view.Show();
+            
+            messageOutput = image.Tag.ToString();
+            textBox1.Text += messageOutput; 
+            
 
         }
 
@@ -169,5 +181,12 @@ namespace ImageProcessing
                 move2.Save("c:\\Users\\Main\\Documents\\myNewimage2.png", System.Drawing.Imaging.ImageFormat.Png);
             }
         }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+           
+        }
+
+      
     }
 }
