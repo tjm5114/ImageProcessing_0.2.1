@@ -180,6 +180,8 @@ namespace ImageProcessing
                 Bitmap move2 = view2.Bitmap;
                 move2.Save("c:\\Users\\Main\\Documents\\myNewimage2.png", System.Drawing.Imaging.ImageFormat.Png);
             }
+
+           
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)

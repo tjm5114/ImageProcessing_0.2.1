@@ -9,6 +9,8 @@ using Accord.Imaging;
 using Accord.Imaging.Filters;
 using System.Windows.Forms;
 using AForge.Imaging.Filters;
+using AForge.Imaging;
+using System.Drawing.Imaging;
 
 namespace ImageProcessing
 {
@@ -137,6 +139,21 @@ namespace ImageProcessing
 
             Bitmap move1Image = new Bitmap("c:\\Users\\Main\\Documents\\myNewimage1.png");
             Bitmap move2Image = new Bitmap("c:\\Users\\Main\\Documents\\myNewimage2.png");
+            Bitmap background = new Bitmap("C:\\Users\\Main\\Documents\\Image Processing\\ImageProcessing_0.2.1\\Pictures\\background.jpg");
+           
+
+            /*
+            
+            for (int i = 0; i < image.Size.Width; i++)
+			{
+                for (int j = 0; j < image.Size.Height; j++)
+			    {
+                    if( background.GetPixel = move1Image)
+                   
+                }
+			}
+              
+            */ 
 
             // Create a new Corners Detector using the given parameters
             HarrisCornersDetector fast = new HarrisCornersDetector();
@@ -144,6 +161,22 @@ namespace ImageProcessing
             //create an arry of those pixel deemed to be corners of the image
             System.Collections.Generic.List<AForge.IntPoint> corners1 = fast.ProcessImage(move1Image);
             System.Collections.Generic.List<AForge.IntPoint> corners2 = fast.ProcessImage(move2Image);
+
+        for (int i = 0; i < image.Size.Height; i++)
+			        {
+			 
+			        }
+
+            float a = corners1[2].X / corners1[2].Y;
+            float r = 30;
+            float rPrime = 50;
+            float q = 10;
+            float f = 5;
+            float distanceP = (a * (r + rPrime) + r) * q / ((a + 1) * f); 
+            float move1 = corners2[0].DistanceTo(corners1[0]);
+            float move2 = corners2[1].DistanceTo(corners1[1]);
+            float move3 = corners2[2].DistanceTo(corners1[2]);
+                
 
             int[] dimensions = new int[5];
             double[] scaled = new double[5];
@@ -208,7 +241,7 @@ namespace ImageProcessing
             Bitmap markers = marker.Apply(image);
 
             //save the image after it has mask applied to it
-           // markers.Save("C:\\Users\\Ro-HII\\Desktop\\Rouzbeh\\Fall 2014\\business\\Plate-Measuring-master\\Pictures\\image1new.png", System.Drawing.Imaging.ImageFormat.Png);
+            markers.Save(@"C:\Users\Main\Documents\Image Processing\ImageProcessing_0.2.1\Pictures\testResult.png", System.Drawing.Imaging.ImageFormat.Png);
            
             string messageOut = "\t Hello, This is meZtech \n \n";
             messageOut += Environment.NewLine;
@@ -225,12 +258,43 @@ namespace ImageProcessing
             messageOut += "\n The Distance Moved in the X Direction is: " + differenceX;
             messageOut += Environment.NewLine; 
             messageOut += "\n The Distance Moved in the Y Direction is: " + differenceY;
+            messageOut += Environment.NewLine;
+            messageOut += "\n The Distance Moved in the 3 corner is: " + distanceP;
+            messageOut += Environment.NewLine;
+            messageOut += "\n The Amount of points in the matrix: " + corners1.Count;
             messageOut += Environment.NewLine; 
             MessageBox.Show(messageOut);
             ret.Tag = messageOut;
-            return ret;
 
             
+            Grayscale filter = new Grayscale(0.2125, 0.7154, 0.0721);
+            // apply the filter
+            Bitmap grayImage = filter.Apply(image);
+            System.Collections.Generic.List<AForge.IntPoint> grayCornerMatrix = fast.ProcessImage(grayImage);
+
+            grayImage.Save(@"C:\Users\Main\Documents\Image Processing\ImageProcessing_0.2.1\Pictures\grayResult.png", System.Drawing.Imaging.ImageFormat.Png);
+
+
+            PointsMarker grayMarkers = new PointsMarker(grayCornerMatrix, System.Drawing.Color.Red, 4);
+
+            // Apply the corner-marking filter
+            Bitmap grayProcessedImage = grayMarkers.Apply(grayImage);
+            grayProcessedImage.Save(@"C:\Users\Main\Documents\Image Processing\ImageProcessing_0.2.1\Pictures\grayCornerResult.png", System.Drawing.Imaging.ImageFormat.Png);
+
+            //Call out to the message log
+            messageOut += "\n The Number of points in the grey matrix: " + grayCornerMatrix.Count;
+            messageOut += Environment.NewLine; 
+
+            MessageBox.Show(messageOut);
+            ret.Tag = messageOut;
+            
+            
+            
+            return ret;
+
+
+
+           
         }
         public override System.Windows.Forms.Control GetParameterWindow()
         {
